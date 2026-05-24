@@ -2,7 +2,7 @@
 
 # Live API URL
 
-````bash
+
 https://your-live-api-url.com
 
 
