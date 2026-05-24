@@ -1,3 +1,4 @@
+import type { JwtPayload } from "jsonwebtoken";
 import { pool } from "../../db";
 import type { Issues, TIssueQuery } from "./issues.interface";
 
@@ -175,16 +176,101 @@ const getSingleIssueFromDB = async (id: string) => {
   return transformedIssue;
 };
 
-const updateIssueIntoDB = async (id: string) => {
-  const result = await pool.query(`
-        
-        `);
-  return result;
+const updateIssueIntoDB = async (
+  id: string,
+  payload: any,
+  user: JwtPayload,
+) => {
+  // 1. Find issue
+  const issueResult = await pool.query(
+    `
+    SELECT * FROM issues
+    WHERE id = $1
+    `,
+    [id],
+  );
+
+  // 2. Check issue exists
+  if (issueResult.rows.length === 0) {
+    throw new Error("Issue not found");
+  }
+
+  const issue = issueResult.rows[0];
+
+  // 3. Authorization Logic
+
+  // If contributor
+  if (user.role === "contributor") {
+    // Check ownership
+    if (issue.reporter_id !== user.id) {
+      throw new Error("You are not authorized to update this issue");
+    }
+
+    // Check status
+    if (issue.status !== "open") {
+      throw new Error("You cannot update a non-open issue");
+    }
+  }
+
+  // Maintainer bypasses everything
+
+  // 4. Dynamic update fields
+  const updates: string[] = [];
+
+  const values: any[] = [];
+
+  let fieldIndex = 1;
+
+  // title
+  if (payload.title) {
+    updates.push(`title = $${fieldIndex}`);
+
+    values.push(payload.title);
+
+    fieldIndex++;
+  }
+
+  // description
+  if (payload.description) {
+    updates.push(`description = $${fieldIndex}`);
+
+    values.push(payload.description);
+
+    fieldIndex++;
+  }
+
+  // type
+  if (payload.type) {
+    updates.push(`type = $${fieldIndex}`);
+
+    values.push(payload.type);
+
+    fieldIndex++;
+  }
+
+  // Always update updated_at
+  updates.push(`updated_at = CURRENT_TIMESTAMP`);
+
+  // Add id at end
+  values.push(id);
+
+  // 5. Final query
+  const query = `
+    UPDATE issues
+    SET ${updates.join(", ")}
+    WHERE id = $${fieldIndex}
+    RETURNING *
+  `;
+
+  // 6. Execute update
+  const result = await pool.query(query, values);
+
+  return result.rows[0];
 };
 
 export const issuesService = {
   createIssueIntoDB,
   getAllIssuesFromDB,
   getSingleIssueFromDB,
-  updateIssueIntoDB
+  updateIssueIntoDB,
 };
