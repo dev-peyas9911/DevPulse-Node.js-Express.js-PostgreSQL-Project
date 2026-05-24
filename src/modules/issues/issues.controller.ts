@@ -50,10 +50,10 @@ const getSingleIssue = async (req: Request, res: Response) => {
   const { id } = req.params;
   try {
     const result = await issuesService.getSingleIssueFromDB(id as string);
-    if (result.rows.length === 0) {
+    if (!result) {
       res.status(404).json({
         success: false,
-        message: "User Not found!",
+        message: "Issue Not found!",
       });
     }
     // console.log(result)
@@ -61,7 +61,7 @@ const getSingleIssue = async (req: Request, res: Response) => {
       statusCode: 201,
       success: true,
       message: "Issue retrived successfully",
-      data: result.rows[0],
+      data: result,
     });
   } catch (error: any) {
     sendResponse(res, {
