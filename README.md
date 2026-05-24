@@ -1,6 +1,11 @@
-
-
 # Project Overview
+
+# Live API URL
+
+````bash
+https://your-live-api-url.com
+
+
 
 DevPulse is a backend issue tracking system designed for software teams.
 
@@ -81,7 +86,7 @@ All APIs were tested using Postman.
 
 ```http
 POST /api/auth/signup
-```
+````
 
 ### Login User
 
@@ -143,8 +148,8 @@ Protected Route
 
 Rules:
 
-* Maintainer can update any issue
-* Contributor can update only own issue when status is `open`
+- Maintainer can update any issue
+- Contributor can update only own issue when status is `open`
 
 ---
 
@@ -284,13 +289,13 @@ Authorization: YOUR_JWT_TOKEN
 
 # Validation & Security
 
-* Passwords are securely hashed
-* JWT protected routes
-* Role-based access control
-* Input validation using Zod
-* SQL injection prevention using parameterized queries
-* Protected ownership-based updates
-* No passwords returned in API responses
+- Passwords are securely hashed
+- JWT protected routes
+- Role-based access control
+- Input validation using Zod
+- SQL injection prevention using parameterized queries
+- Protected ownership-based updates
+- No passwords returned in API responses
 
 ---
 
@@ -300,12 +305,12 @@ All endpoints were tested using Postman.
 
 Example tested features:
 
-* Authentication flow
-* Protected routes
-* Filtering and sorting
-* Authorization validation
-* CRUD operations
-* Error handling
+- Authentication flow
+- Protected routes
+- Filtering and sorting
+- Authorization validation
+- CRUD operations
+- Error handling
 
 ---
 
@@ -324,4 +329,5 @@ https://github.com/dev-peyas9911
 ---
 
 ```
+
 ```
