@@ -72,8 +72,36 @@ const getSingleIssue = async (req: Request, res: Response) => {
   }
 };
 
+// Update Issue
+const updateIssue = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  try {
+    const result = await issuesService.updateIssueIntoDB(id as string);
+    if (!result) {
+      res.status(404).json({
+        success: false,
+        message: "Issue Not found!",
+      });
+    }
+    // console.log(result)
+    sendResponse(res, {
+      statusCode: 201,
+      success: true,
+      message: "Issue updated successfully",
+      data: result,
+    });
+  } catch (error: any) {
+    sendResponse(res, {
+      statusCode: 500,
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
 export const issuesController = {
   createIssue,
   getAllIssues,
   getSingleIssue,
+  updateIssue
 };

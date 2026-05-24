@@ -118,24 +118,23 @@ const getAllIssuesFromDB = async (queryParams: TIssueQuery) => {
 };
 
 const getSingleIssueFromDB = async (id: string) => {
-//   const result = await pool.query(
-//     `
-//         SELECT * FROM issues
-//         WHERE id=$1
-//         `,
-//     [id],
-//   );
-//   return result;
+  //   const result = await pool.query(
+  //     `
+  //         SELECT * FROM issues
+  //         WHERE id=$1
+  //         `,
+  //     [id],
+  //   );
+  //   return result;
 
-
-// -------
- // 1. Fetch issue
+  // -------
+  // 1. Fetch issue
   const issueResult = await pool.query(
     `
     SELECT * FROM issues
     WHERE id = $1
     `,
-    [id]
+    [id],
   );
 
   // 2. Check issue exists
@@ -153,7 +152,7 @@ const getSingleIssueFromDB = async (id: string) => {
     FROM users
     WHERE id = $1
     `,
-    [issue.reporter_id]
+    [issue.reporter_id],
   );
 
   // 5. Extract reporter
@@ -176,8 +175,16 @@ const getSingleIssueFromDB = async (id: string) => {
   return transformedIssue;
 };
 
+const updateIssueIntoDB = async (id: string) => {
+  const result = await pool.query(`
+        
+        `);
+  return result;
+};
+
 export const issuesService = {
   createIssueIntoDB,
   getAllIssuesFromDB,
   getSingleIssueFromDB,
+  updateIssueIntoDB
 };
