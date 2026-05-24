@@ -1,22 +1,4 @@
-Here is a professional `README.md` for your backend project.
-You should replace placeholder URLs and values before pushing to GitHub.
 
-````md
-# DevPulse API
-
-A professional backend REST API for an internal tech issue and feature tracking platform where software teams can report bugs, request features, and manage issue workflows collaboratively.
-
-Built with Node.js, Express.js, TypeScript, PostgreSQL, JWT authentication, and raw SQL queries.
-
----
-
-# Live API URL
-
-```bash
-https://your-live-api-url.com
-````
-
----
 
 # Project Overview
 
