@@ -1,6 +1,7 @@
 import type { Request, Response } from "express";
 import sendResponse from "../../utils/sendResponse";
 import { issuesService } from "./issues.service";
+import type { TIssueQuery } from "./issues.interface";
 
 // Create Issue
 const createIssue = async (req: Request, res: Response) => {
@@ -27,13 +28,13 @@ const createIssue = async (req: Request, res: Response) => {
 // Get all issues
 const getAllIssues = async (req: Request, res: Response) => {
   try {
-    const result = await issuesService.getAllIssuesFromDB();
+    const result = await issuesService.getAllIssuesFromDB(req.query as TIssueQuery);
     // console.log(result)
     sendResponse(res, {
-      statusCode: 201,
+      statusCode: 200,
       success: true,
       message: "Issues retrived successfully",
-      data: result.rows,
+      data: result,
     });
   } catch (error: any) {
     sendResponse(res, {
