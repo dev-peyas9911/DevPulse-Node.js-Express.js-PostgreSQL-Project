@@ -233,7 +233,7 @@ src/
 ## Clone Repository
 
 ```bash
-git clone https://github.com/your-username/devpulse-api.git
+git clone https://github.com/dev-peyas9911/DevPulse-Node.js-Express.js-PostgreSQL-Project.git
 ```
 
 ## Move Into Project Directory
@@ -254,8 +254,8 @@ Create a `.env` file in the root directory:
 
 ```env
 PORT=5000
-DATABASE_URL=your_postgresql_connection_url
-JWT_SECRET=your_secret_key
+connectionString=your_postgresql_connection_url
+jwt_secret=your_secret_key
 NODE_ENV=development
 ```
 
@@ -295,7 +295,7 @@ npm start
 Example Header:
 
 ```http
-Authorization: Bearer YOUR_JWT_TOKEN
+Authorization: YOUR_JWT_TOKEN
 ```
 
 ---
@@ -336,7 +336,7 @@ Frontend Developer transitioning into Backend Development.
 GitHub:
 
 ```bash
-https://github.com/your-github-username
+https://github.com/dev-peyas9911
 ```
 
 ---
