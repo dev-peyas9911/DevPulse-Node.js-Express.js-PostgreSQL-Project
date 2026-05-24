@@ -25,7 +25,7 @@ const createIssue = async (req: Request, res: Response) => {
 };
 
 // Get all issues
-const getAllIssues = async(req:Request, res: Response) => {
+const getAllIssues = async (req: Request, res: Response) => {
   try {
     const result = await issuesService.getAllIssuesFromDB();
     // console.log(result)
@@ -35,16 +35,44 @@ const getAllIssues = async(req:Request, res: Response) => {
       message: "Issues retrived successfully",
       data: result.rows,
     });
-  } catch (error:any) {
+  } catch (error: any) {
     sendResponse(res, {
       statusCode: 500,
       success: false,
       message: error.message,
     });
   }
-}
+};
+
+// Get Single Issue
+const getSingleIssue = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  try {
+    const result = await issuesService.getSingleIssueFromDB(id as string);
+    if (result.rows.length === 0) {
+      res.status(404).json({
+        success: false,
+        message: "User Not found!",
+      });
+    }
+    // console.log(result)
+    sendResponse(res, {
+      statusCode: 201,
+      success: true,
+      message: "Issue retrived successfully",
+      data: result.rows[0],
+    });
+  } catch (error: any) {
+    sendResponse(res, {
+      statusCode: 500,
+      success: false,
+      message: error.message,
+    });
+  }
+};
 
 export const issuesController = {
   createIssue,
-  getAllIssues
+  getAllIssues,
+  getSingleIssue,
 };
