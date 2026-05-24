@@ -268,9 +268,41 @@ const updateIssueIntoDB = async (
   return result.rows[0];
 };
 
+const deleteIssueIntoDB = async (id: string, user: JwtPayload) => {
+  // 1. Check role
+  if (user.role !== "maintainer") {
+    throw new Error("You are not authorized to delete issues");
+  }
+
+  // 2. Check issue exists
+  const issueResult = await pool.query(
+    `
+    SELECT * FROM issues
+    WHERE id = $1
+    `,
+    [id],
+  );
+
+  if (issueResult.rows.length === 0) {
+    throw new Error("Issue not found");
+  }
+
+  // 3. Delete issue
+  await pool.query(
+    `
+    DELETE FROM issues
+    WHERE id = $1
+    `,
+    [id],
+  );
+
+  return null;
+};
+
 export const issuesService = {
   createIssueIntoDB,
   getAllIssuesFromDB,
   getSingleIssueFromDB,
   updateIssueIntoDB,
+  deleteIssueIntoDB,
 };

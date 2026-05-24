@@ -29,7 +29,9 @@ const createIssue = async (req: Request, res: Response) => {
 // Get all issues
 const getAllIssues = async (req: Request, res: Response) => {
   try {
-    const result = await issuesService.getAllIssuesFromDB(req.query as TIssueQuery);
+    const result = await issuesService.getAllIssuesFromDB(
+      req.query as TIssueQuery,
+    );
     // console.log(result)
     sendResponse(res, {
       statusCode: 200,
@@ -78,7 +80,11 @@ const updateIssue = async (req: Request, res: Response) => {
   const { id } = req.params;
   const userData = req.user;
   try {
-    const result = await issuesService.updateIssueIntoDB(id as string, req.body, userData as JwtPayload);
+    const result = await issuesService.updateIssueIntoDB(
+      id as string,
+      req.body,
+      userData as JwtPayload,
+    );
     if (!result) {
       res.status(404).json({
         success: false,
@@ -101,9 +107,29 @@ const updateIssue = async (req: Request, res: Response) => {
   }
 };
 
+// Delete Issue
+const deleteIssue = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const userData = req.user;
+  try {
+    await issuesService.deleteIssueIntoDB(id as string, userData as JwtPayload);
+    res.status(200).json({
+      success: true,
+      message: "Issue deleted successfully",
+    });
+  } catch (error: any) {
+    sendResponse(res, {
+      statusCode: 500,
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
 export const issuesController = {
   createIssue,
   getAllIssues,
   getSingleIssue,
-  updateIssue
+  updateIssue,
+  deleteIssue,
 };
